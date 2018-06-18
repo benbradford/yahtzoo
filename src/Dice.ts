@@ -23,6 +23,10 @@ class Dice {
     public die(index : number) : Die {
         return this.dice[index];
     }
+
+    public getAll() : Die[] {
+        return this.dice;
+    }
   
   }
 
