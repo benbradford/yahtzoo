@@ -12,7 +12,7 @@ class Die {
         this.held = true;
     }
 
-    public reset() {
+    public reset_hold() {
         this.held = false;
     }
 

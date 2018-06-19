@@ -9,6 +9,8 @@
 
 .Dice-Img {
   height: 80px;
+  padding: 5px;
+  background-color: white;
 }
 
 .App-header {

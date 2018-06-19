@@ -12,7 +12,7 @@ const images = [
 
 class DieView extends React.Component<any, any>{
 
-     private readonly die : Die;
+     private die : Die;
      private readonly num : number;
 
     constructor(props : any) {
@@ -22,11 +22,13 @@ class DieView extends React.Component<any, any>{
         this.die = this.props.die;
     }
   
-    public render() {  
-        
+   
+    public render() {         
         return (
             <p><code>{this.num} </code>
-            <img src={this.image()} className="Dice-Img"/>
+                <button onClick={this.buttonClick}> 
+                    <img src={this.image()} className="Dice-Img" /> 
+                </button>     
             </p>
         );
     }
@@ -35,6 +37,15 @@ class DieView extends React.Component<any, any>{
         const dieImage = images[this.die.value() - 1];
         return dieImage;
     }
+
+    private buttonClick = () => {
+        if (this.die.is_held()) {
+            this.die.reset_hold();
+        } else {
+            this.die.hold();
+        }
+    }
+
 }
 
 export default DieView;

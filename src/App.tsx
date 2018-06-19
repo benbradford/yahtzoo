@@ -12,17 +12,11 @@ class App extends React.Component {
     super(props);
     this.dice.roll();
   }
-
-  public handleRoll = () => {
-    this.dice.roll();
-    this.forceUpdate();
-  }
   
   public render() {
     
     return (
       <div className="App">
-
         <div style={{textAlign:"left"}}>
         <button onClick={this.handleRoll}
             title="Roll"
@@ -30,9 +24,7 @@ class App extends React.Component {
           <table>          
             {this.dice.getAll().map(this.renderOneDie)}
           </table>
-        </div>
-        
-            
+        </div>      
       </div>
     );
   }
@@ -43,7 +35,10 @@ class App extends React.Component {
     );
   }
 
-
+  private handleRoll = () => {
+    this.dice.roll();
+    this.forceUpdate();
+  }
 
 }
 
