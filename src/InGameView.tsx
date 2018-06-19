@@ -46,8 +46,7 @@ class InGameView extends React.Component<{}, InGameState>{
         this.setState({dice});     
     }
 
-    private handleToggleHold = () => {
-        const index = 0;
+    private handleToggleHold = (index : number) => {
         const dice = Dice.toggle_hold(index, this.state.dice);
         this.setState({dice});
     }
