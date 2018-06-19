@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Die from './Die'
 
 const images = [
     require('./img/die1.png'), 
@@ -12,40 +11,31 @@ const images = [
 
 class DieView extends React.Component<any, any>{
 
-     private die : Die;
-     private readonly num : number;
-
+    
     constructor(props : any) {
         super(props);
 
-        this.num = this.props.num;
-        this.die = this.props.die;
     }
-  
    
     public render() {         
         return (
-            <p><code>{this.num} </code>
-                <button onClick={this.buttonClick}> 
-                    <img src={this.image()} className="Dice-Img" /> 
-                </button>     
+            <p><code>{this.props.num} </code>            
+                <button onClick={this.onClick}> <img src={this.image()} className="Dice-Img" /> </button>                 
             </p>
         );
     }
 
     private image() : any {
-        const dieImage = images[this.die.value() - 1];
+        const index = this.props.num;
+        const dice = this.props.dice;
+        const value = dice.value_of(index) - 1;
+        const dieImage = images[value];
         return dieImage;
     }
 
-    private buttonClick = () => {
-        if (this.die.is_held()) {
-            this.die.reset_hold();
-        } else {
-            this.die.hold();
-        }
+    private onClick = () => {
+        this.props.onClick(this.props.num);
     }
-
 }
 
 export default DieView;
