@@ -1,17 +1,19 @@
 import * as React from 'react';
 
-import Dice from './Dice';
+import {InGameState} from './InGameData'
 import DieView from './DieView';
-
-interface InGameState {
-    dice : Dice;
-}
+import DiceMutator from './DiceMutator';
+import GameStateHistory from './GameStateHistory'
 
 class InGameView extends React.Component<{}, InGameState>{
 
+    private history : GameStateHistory;
+    private diceMutator : DiceMutator;
+
     constructor(props: {}) {
         super(props);
-        
+        this.history = new GameStateHistory();
+        this.diceMutator = new DiceMutator(this.history);
     }
     
     public render() {         
@@ -30,27 +32,24 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     public componentWillMount() {
-        const dice = new Dice();
-        dice.set_default();
-        this.setState({dice});
+        this.setState(this.history.current());
     }
 
     private renderOneDie( index: number) {
-     return (
-        <td> <DieView num={index} dice={this.state.dice} onClick={this.handleToggleHold} /> </td>
+        return (
+            <td> 
+                <DieView num={index} dice={this.state.dice} onClick={this.handleToggleHold} /> 
+            </td>
         );
     }
 
     private handleRoll = () => {
-        const dice = Dice.roll(this.state.dice);
-        this.setState({dice});     
+        this.setState(this.diceMutator.roll());
     }
 
     private handleToggleHold = (index : number) => {
-        const dice = Dice.toggle_hold(index, this.state.dice);
-        this.setState({dice});
+        this.setState(this.diceMutator.toggle_hold(index));
     }
-
 }
 
 export default InGameView;

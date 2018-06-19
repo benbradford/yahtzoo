@@ -10,11 +10,9 @@ const images = [
 ];
 
 class DieView extends React.Component<any, any>{
-
     
     constructor(props : any) {
         super(props);
-
     }
    
     public render() {         
@@ -28,7 +26,7 @@ class DieView extends React.Component<any, any>{
     private image() : any {
         const index = this.props.num;
         const dice = this.props.dice;
-        const value = dice.value_of(index) - 1;
+        const value = dice[index].value - 1;
         const dieImage = images[value];
         return dieImage;
     }
