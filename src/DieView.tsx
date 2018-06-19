@@ -18,17 +18,45 @@ class DieView extends React.Component<any, any>{
     public render() {         
         return (
             <p><code>{this.props.num} </code>            
-                <button onClick={this.onClick}> <img src={this.image()} className="Dice-Img" /> </button>                 
+                <button onClick={this.onClick} className={this.border_style()}> 
+                    <img src={this.image()} className={this.dice_style()} /> 
+                </button>                 
             </p>
         );
     }
 
+    private is_held() : boolean {
+        return this.props.dice[this.props.num].held;
+    }
+
     private image() : any {
+        if (this.is_spinning()) {
+            return images[Math.floor( Math.random() * 6)];
+        }
         const index = this.props.num;
         const dice = this.props.dice;
         const value = dice[index].value - 1;
         const dieImage = images[value];
         return dieImage;
+    }
+
+    private border_style() : string {
+        if (this.is_held()) {
+            return "Dice-Border-Held";
+        }
+        
+        return "Dice-Border-None";
+    }
+
+    private is_spinning() : boolean {
+        return this.is_held() === false && this.props.currentState === "Rolling";
+    }
+
+    private dice_style() : string {
+        if (this.is_spinning()) {
+            return "Dice-Spin";
+        }
+        return "Dice-Img";
     }
 
     private onClick = () => {

@@ -1,8 +1,11 @@
+
 export interface IDie {
-    value: number;
-    held: boolean;
+    value : number;
+    held : boolean;
 }
-  
+
 export interface InGameState {
-    dice: IDie[];
+    dice : IDie[];
+    state : string;
+    rollNumber : number;
 }

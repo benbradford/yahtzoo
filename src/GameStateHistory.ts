@@ -6,16 +6,7 @@ export default class GameStateHistory {
     private undone : InGameState[] = [];
 
     constructor() {      
-        const state : InGameState = {
-            dice : [
-                { value: 1, held: false },
-                { value: 1, held: false },
-                { value: 1, held: false },
-                { value: 1, held: false },
-                { value: 1, held: false }
-            ]       
-        };
-        this.push_state(state);
+        this.push_state(this.make_round_start_state());
     }
 
     public current() : InGameState {
@@ -50,5 +41,19 @@ export default class GameStateHistory {
         this.undone = [];
         this.history.push(newState);
         return this.current();
+    }
+
+    private make_round_start_state() : InGameState {
+        return {
+            dice : [
+                { value: 1, held: false },
+                { value: 1, held: false },
+                { value: 1, held: false },
+                { value: 1, held: false },
+                { value: 1, held: false }
+            ],
+            state : "AwaitRoll",
+            rollNumber : 0
+        };
     }
 }

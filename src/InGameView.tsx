@@ -38,17 +38,30 @@ class InGameView extends React.Component<{}, InGameState>{
     private renderOneDie( index: number) {
         return (
             <td> 
-                <DieView num={index} dice={this.state.dice} onClick={this.handleToggleHold} /> 
+                <DieView num={index} dice={this.state.dice} onClick={this.handleToggleHold} currentState={this.state.state}/> 
             </td>
         );
     }
 
     private handleRoll = () => {
-        this.setState(this.diceMutator.roll());
+        this.move_to("Rolling");
+        setTimeout( () => {
+            this.move_to("AwaitingRoll");
+            this.setState(this.diceMutator.roll());
+        }, Math.floor( Math.random() * 700) + 300);
     }
 
     private handleToggleHold = (index : number) => {
         this.setState(this.diceMutator.toggle_hold(index));
+    }
+
+    private move_to(newState : string) {
+        const newData : InGameState=  {
+            dice : this.state.dice,
+            state : newState,
+            rollNumber : this.state.rollNumber   
+        };
+        this.setState(newData);
     }
 }
 

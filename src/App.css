@@ -2,15 +2,31 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
+.Dice-Spin {
+  animation: Dice-Spin-Anim infinite 0.3s linear;
   height: 80px;
+  padding: 5px;
+  background-color: white;
 }
 
 .Dice-Img {
   height: 80px;
   padding: 5px;
   background-color: white;
+}
+
+.Dice-Border-Held {
+  padding: 8px;
+  height: 10px;
+  background-color: yellow;
+  border-style: solid;
+}
+
+.Dice-Border-None {
+  padding: 8px;
+  height: 10px;
+  background-color: white;
+  border-style: solid;
 }
 
 .App-header {
@@ -28,7 +44,7 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
+@keyframes Dice-Spin-Anim {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }

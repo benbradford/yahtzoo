@@ -19,7 +19,9 @@ export default class DiceMutator {
                 { value: this.new_value_or_held(old, 2), held: old.dice[2].held },
                 { value: this.new_value_or_held(old, 3), held: old.dice[3].held  },
                 { value: this.new_value_or_held(old, 4), held: old.dice[4].held  }
-            ]    
+            ],
+            state : old.state,
+            rollNumber : old.rollNumber + 1    
         };
         return this.history.push_state(newState);
     }
@@ -28,14 +30,15 @@ export default class DiceMutator {
         const old : InGameState = this.history.current();
 
         const newState : InGameState =  {
-            dice : 
-                 [
+            dice : [
                     { value: old.dice[0].value, held: this.old_value_or_toggle(old, 0, index)},
                     { value: old.dice[1].value, held: this.old_value_or_toggle(old, 1, index)},
                     { value: old.dice[2].value, held: this.old_value_or_toggle(old, 2, index)},
                     { value: old.dice[3].value, held: this.old_value_or_toggle(old, 3, index)},
                     { value: old.dice[4].value, held: this.old_value_or_toggle(old, 4, index)}
-                ]    
+                ]   ,
+            state : old.state,
+            rollNumber : old.rollNumber
           };
        return this.history.push_state(newState);
     }
