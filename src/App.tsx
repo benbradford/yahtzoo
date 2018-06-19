@@ -7,18 +7,31 @@ import DieView from './DieView';
 class App extends React.Component {
 
   private dice : Dice = new Dice;
-
-  public render() {
+  
+  constructor(props : any) {
+    super(props);
     this.dice.roll();
+  }
+
+  public handleRoll = () => {
+    this.dice.roll();
+    this.forceUpdate();
+  }
+  
+  public render() {
+    
     return (
       <div className="App">
-        <header className="App-header" />
 
-        <p className="App-intro">
+        <div style={{textAlign:"left"}}>
+        <button onClick={this.handleRoll}
+            title="Roll"
+            color="#841584"> Roll </button>
           <table>          
             {this.dice.getAll().map(this.renderOneDie)}
           </table>
-        </p>
+        </div>
+        
             
       </div>
     );
@@ -26,9 +39,12 @@ class App extends React.Component {
 
   private renderOneDie( die: Die, index: number) {
     return (
-      <tr> <DieView key={index} die={die} /> </tr>
+      <td> <DieView key={index} die={die} /> </td>
     );
   }
+
+
+
 }
 
 export default App;
