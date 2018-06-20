@@ -1,6 +1,8 @@
 import * as React from 'react';
+import {InGameStateType} from './InGameData'
 
 const images = [
+    require('./img/roll.gif'),
     require('./img/die1.png'), 
     require('./img/die2.png'), 
     require('./img/die3.png'), 
@@ -17,7 +19,7 @@ class DieView extends React.Component<any, any>{
    
     public render() {         
         return (
-            <p><code>{this.props.num} </code>            
+            <p>          
                 <button onClick={this.onClick} className={this.border_style()}> 
                     <img src={this.image()} className={this.dice_style()} /> 
                 </button>                 
@@ -31,11 +33,11 @@ class DieView extends React.Component<any, any>{
 
     private image() : any {
         if (this.is_spinning()) {
-            return images[Math.floor( Math.random() * 6)];
+            return images[0];
         }
         const index = this.props.num;
         const dice = this.props.dice;
-        const value = dice[index].value - 1;
+        const value = dice[index].value;
         const dieImage = images[value];
         return dieImage;
     }
@@ -49,7 +51,7 @@ class DieView extends React.Component<any, any>{
     }
 
     private is_spinning() : boolean {
-        return this.is_held() === false && this.props.currentState === "Rolling";
+        return this.is_held() === false && this.props.currentState === InGameStateType.rolling;
     }
 
     private dice_style() : string {

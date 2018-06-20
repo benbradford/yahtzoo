@@ -1,4 +1,5 @@
-import {InGameState} from './InGameData'
+import {InGameState, InGameStateType} from './InGameData'
+import ScoreMutator from 'src/ScoreMutator';
 
 export default class GameStateHistory {
 
@@ -52,8 +53,9 @@ export default class GameStateHistory {
                 { value: 1, held: false },
                 { value: 1, held: false }
             ],
-            state : "AwaitRoll",
-            rollNumber : 0
+            state : InGameStateType.awaiting_roll,
+            rollNumber : 0,
+            scores : ScoreMutator.make_empty_scores()  
         };
     }
 }

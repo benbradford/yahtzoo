@@ -21,7 +21,8 @@ export default class DiceMutator {
                 { value: this.new_value_or_held(old, 4), held: old.dice[4].held  }
             ],
             state : old.state,
-            rollNumber : old.rollNumber + 1    
+            rollNumber : old.rollNumber + 1,
+            scores : old.scores  
         };
         return this.history.push_state(newState);
     }
@@ -38,7 +39,8 @@ export default class DiceMutator {
                     { value: old.dice[4].value, held: this.old_value_or_toggle(old, 4, index)}
                 ]   ,
             state : old.state,
-            rollNumber : old.rollNumber
+            rollNumber : old.rollNumber,
+            scores : old.scores  
           };
        return this.history.push_state(newState);
     }

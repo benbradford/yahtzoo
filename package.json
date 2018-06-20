@@ -2,6 +2,7 @@
   "name": "yahtzoo",
   "version": "0.1.0",
   "private": true,
+  "main": "src/index.tsx",
   "dependencies": {
     "npm": "^6.1.0",
     "react": "^16.4.1",
@@ -21,4 +22,5 @@
     "@types/react-dom": "^16.0.6",
     "typescript": "^2.9.2"
   }
+  
 }

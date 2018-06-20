@@ -1,32 +1,77 @@
 .App {
   text-align: center;
+  
+}
+
+.Dice-Together {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.Click-Button {
+  text-align: center;
+ 
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+  font-size: 1.5em;
 }
 
 .Dice-Spin {
-  animation: Dice-Spin-Anim infinite 0.3s linear;
-  height: 80px;
-  padding: 5px;
+  animation: Dice-Spin-Anim infinite 0.25s linear;
+  height: 7em;
   background-color: white;
 }
 
 .Dice-Img {
-  height: 80px;
-  padding: 5px;
+  height: 7em;
   background-color: white;
 }
 
 .Dice-Border-Held {
-  padding: 8px;
-  height: 10px;
+  
+  height: 9em;
+  padding: 0.5em;
+
+  border-width:0.3em;
   background-color: yellow;
   border-style: solid;
+  
+}
+
+.ScoreBoard {
+  
+  border-width:0.3em;
+  background-color: white;
+  border-color: red;
+  border-style: outset;
+  
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10em;
+}
+
+.ScoreBoard-Cell {
+  border-width:0.2em;
+  padding: 0.3em;
+  background-color: white;
+  border-color: red;
+  border-style: outset;
 }
 
 .Dice-Border-None {
-  padding: 8px;
-  height: 10px;
+  height: 9em;
+  padding: 0.5em;
+  
+  border-width:0.3em;
   background-color: white;
+  color:white;
   border-style: solid;
+  border-color:white;
+  
 }
 
 .App-header {
