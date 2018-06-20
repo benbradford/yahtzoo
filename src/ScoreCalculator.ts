@@ -1,4 +1,4 @@
-import {IDie} from './InGameData'
+import {IDie, IScoreCategory} from './InGameData'
 
 export default class ScoreCalculator {
 
@@ -6,10 +6,28 @@ export default class ScoreCalculator {
     private totalSum : number  = 0;
     constructor(dice : IDie[]) {
         for (let i = 0; i < 5; ++i){
-            ++this.totals[dice[i].value];
-
-            this.totalSum += (dice[i].value) * (i+1);
+            ++this.totals[dice[i].value-1];
+            this.totalSum += (dice[i].value);
         }
+    }
+
+    public score(category : IScoreCategory) : number{
+        switch (category) {
+            case IScoreCategory.ones: return this.ones();
+            case IScoreCategory.twos: return this.twos();
+            case IScoreCategory.threes: return this.threes();
+            case IScoreCategory.fours: return this.fours();
+            case IScoreCategory.fives: return this.fives();
+            case IScoreCategory.sixes: return this.sixes();
+            case IScoreCategory.trips: return this.trips();
+            case IScoreCategory.quads: return this.quads();
+            case IScoreCategory.full: return this.full();
+            case IScoreCategory.small: return this.small();
+            case IScoreCategory.large: return this.large();
+            case IScoreCategory.yahtzee: return this.yahtzee();
+            case IScoreCategory.chance: return this.chance();
+        }
+        return -1;
     }
 
     public ones() : number {
@@ -37,7 +55,7 @@ export default class ScoreCalculator {
     }
 
     public trips() : number {
-        if (this.has_one_total_with_gte(4)) {
+        if (this.has_one_total_with_gte(3)) {
             return this.totalSum;
         }
         return 0;

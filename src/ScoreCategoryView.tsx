@@ -1,5 +1,6 @@
 import * as React from 'react';
 // import {InGameStateType, IScoreCategory} from './InGameData'
+import ScoreCalculator from './ScoreCalculator'
 
 class ScoreCategoryView extends React.Component<any, any>{
     
@@ -9,20 +10,18 @@ class ScoreCategoryView extends React.Component<any, any>{
    
     public render() {         
         return (
-            <p className="ScoreBoard-Cell">          
-                {this.props.name} {this.score()}               
-            </p>
+            <td className="ScoreBoard-Cell">          
+                <code> {this.props.name} {this.score()} </code>              
+            </td>
         );
     }
 
     private score() : string {
        
-        if (this.props.scores === undefined) {
-            return "";
-        }
         const s = this.props.scores[this.props.category];
         if (s === undefined) {
-            return "";
+            const calc : ScoreCalculator = this.props.calc;
+            return "" + calc.score(this.props.category);
         }
         return "" + s;
     }

@@ -24,7 +24,7 @@ class InGameView extends React.Component<{}, InGameState>{
         return (
             <p>
             <ScoreBoardView dice={this.state.dice} scores={this.state.scores} state={this.state.state} />
-             <button className = "Click-Button" onClick={this.handleRoll}> ROLL </button>
+             <button className = "Click-Button" onClick={this.handleRoll} disabled={this.state.state !== InGameStateType.awaiting_roll}> ROLL </button>
              <div className="Dice-Together"><table> <tr>         
                {this.renderOneDie(0)}
                {this.renderOneDie(1)}
@@ -70,6 +70,7 @@ class InGameView extends React.Component<{}, InGameState>{
         };
         this.setState(newData);
     }
+
 }
 
 export default InGameView;

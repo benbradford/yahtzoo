@@ -8,9 +8,9 @@ class BonusCellView extends React.Component<any, any>{
    
     public render() {         
         return (
-            <p>          
+            <td className="ScoreBoard-Cell">          
                 Bonus:               
-            </p>
+            </td>
         );
     }
 
