@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import {InGameStateType, IScoreCategory} from './InGameData'
+import {InGameStateType} from './InGameData'
 import ScoreCalculator from './ScoreCalculator'
 
 class ScoreCategoryView extends React.Component<any, any>{
@@ -10,8 +10,8 @@ class ScoreCategoryView extends React.Component<any, any>{
    
     public render() {         
         return (
-            <td className="ScoreBoard-Cell">          
-                <button onClick={this.clicked}> <code> {this.props.name} {this.score()} </code>  </button>            
+            <td className={this.td_className()}>          
+                <button className="Score-Click" onClick={this.clicked} disabled={this.is_button_disabled()}> <code> {this.props.name} {this.score()}</code>  </button>            
             </td>
        
         );
@@ -26,11 +26,26 @@ class ScoreCategoryView extends React.Component<any, any>{
         return "" + s;
     }
 
+    private td_className() : string {
+        if (this.props.is_selected) {
+            return "ScoreBoard-Cell-Selected";
+        } else {
+            return "ScoreBoard-Cell";
+        }
+    }
+
     private clicked = () => {
         const s = this.props.scores[this.props.category];
         if (s === undefined) {
             this.props.onClick(this.props.category, this.props.calc.score(this.props.category));
         }
+    }
+
+    private is_button_disabled() : boolean {
+        if (this.props.scores[this.props.category] === undefined) {
+            return false;
+        }
+        return !(this.props.state === InGameStateType.awaiting_selection || this.props.state === InGameStateType.selection_pending);
     }
 }
 

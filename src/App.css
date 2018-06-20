@@ -67,6 +67,20 @@
   font-size: 1.2em;
 }
 
+.ScoreBoard-Cell-Selected {
+  width: 7em;
+  border:0.1em solid yellow;
+  text-align: left;
+  font: 'courier';
+  font-family: "Gill Sans", sans-serif;
+  font-style: normal;
+  font-size: 1.4em;
+}
+
+.Score-Click {
+  min-width: 6em;
+}
+
 .Dice-Border-None {
   height: 9em;
   padding: 0.5em;

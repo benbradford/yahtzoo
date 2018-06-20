@@ -43,4 +43,13 @@ export default class ScoreMutator {
         return this.history.current().scores[category] !== undefined;
     }
 
+    public is_complete() : boolean {
+        const current : InGameState = this.history.current();
+        for (let i = 0; i < IScoreCategory.max; ++i) {
+            if (current.scores[i] === undefined) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

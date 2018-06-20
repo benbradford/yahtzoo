@@ -2,7 +2,8 @@ export enum InGameStateType {
     awaiting_roll,
     rolling,
     awaiting_selection,
-    selection_pending
+    selection_pending,
+    game_complete
 }
 export enum IScoreCategory {
     ones = 0,

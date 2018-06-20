@@ -32,7 +32,7 @@ class ScoreBoardView extends React.Component<any, any>{
     }
 
     private add_view(calc : ScoreCalculator, category : IScoreCategory, name : string) : any {
-        return  (<ScoreCategoryView onClick={this.handleScoreSelection} calc={calc} category={category} name={name} scores={this.props.scores} /> );
+        return  (<ScoreCategoryView onClick={this.handleScoreSelection} calc={calc} category={category} name={name} scores={this.props.scores} is_selected={this.props.selected === category} state={this.props.state}/> );
     }
 }
 
