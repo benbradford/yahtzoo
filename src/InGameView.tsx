@@ -68,7 +68,7 @@ class InGameView extends React.Component<{}, InGameState>{
             return false;
         }
         if (this.state.state === InGameStateType.awaiting_selection) {
-            if (this.state.rollNumber === 2) {
+            if (this.state.rollNumber === 3) {
                 return true;
             }
             return false;
@@ -80,8 +80,8 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     private button_text() : any {
-        if (this.state.state === InGameStateType.selection_pending) {
-            return "OK";
+        if (this.state.state === InGameStateType.selection_pending || this.state.rollNumber === 3) {
+            return "SELECT";
         }
         return "ROLL";
     }
@@ -108,7 +108,10 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     private handleToggleHold = (index : number) => {
-        if (this.state.rollNumber === 2) {
+        if (this.state.rollNumber === 0) {
+            return;
+        }
+        if (this.state.rollNumber === 3) {
             return;
         }
         this.setState(this.diceMutator.toggle_hold(this.state, index));

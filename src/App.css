@@ -59,27 +59,59 @@
 
 .ScoreBoard-Cell {
   width: 7em;
-  border:0.1em solid #FF0000;
+  border:0.2em solid #FF0000;
   text-align: left;
+
+}
+
+.ScoreBoard-Cell-Selected {
+  width: 7em;
+  border:0.2em solid yellow;
+  background-color: yellow;
+  text-align: left;
+  border-style: dotted;
+}
+
+.ScoreBoard-Cell-Commited {
+  width: 7em;
+  border:0.2em solid #FF0000;
+  background-color: lightgrey;
+  text-align: left;
+ 
+}
+
+.ScoreBoard-Cell-Font {
+ 
   font: 'courier';
   font-family: "Gill Sans", sans-serif;
   font-style: normal;
   font-size: 1.2em;
 }
 
-.ScoreBoard-Cell-Selected {
-  width: 7em;
-  border:0.1em solid yellow;
-  text-align: left;
+.ScoreBoard-Cell-Font-Selected {
+ 
   font: 'courier';
   font-family: "Gill Sans", sans-serif;
   font-style: normal;
-  font-size: 1.4em;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.ScoreBoard-Cell-Font-Commited {
+ 
+  font: 'courier';
+  font-family: "Gill Sans", sans-serif;
+  font-style: normal;
+  font-size: 1.2em;
+  font-weight: bolder;
+  background-color: lightgrey;
+  border-color: lightgrey;
 }
 
 .Score-Click {
   min-width: 6em;
 }
+
 
 .Dice-Border-None {
   height: 9em;

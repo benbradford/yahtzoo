@@ -77,15 +77,18 @@ export default class ScoreCalculator {
     }
 
     public small() : number {
-        if (this.has_consecutive(0, 4) || this.has_consecutive(1, 4) || this.has_consecutive(2, 4)) {
+        if ((this.totals[0] > 0 && this.totals[1] > 0 && this.totals[2] > 0 && this.totals[3] > 0) ||
+        (this.totals[1] > 0 && this.totals[2] > 0 && this.totals[3] > 0 && this.totals[4] > 0) ||
+        (this.totals[2] > 0 && this.totals[3] > 0 && this.totals[4] > 0 && this.totals[5] > 0)){
             return 30;
         }
         return 0;
     }
 
     public large() : number {
-        if (this.has_consecutive(0, 5) || this.has_consecutive(1, 5)) {
-            return 30;
+        if ((this.totals[0] > 0 && this.totals[1] > 0 && this.totals[2] > 0 && this.totals[3] > 0 && this.totals[4] > 0) ||
+        (this.totals[1] > 0 && this.totals[2] > 0 && this.totals[3] > 0 && this.totals[4] > 0 && this.totals[5] > 0)) {
+            return 40;
         }
         return 0;
     
@@ -102,15 +105,6 @@ export default class ScoreCalculator {
         return this.totalSum;
     }
 
-    private has_consecutive(startIndex : number, required : number) : boolean {
-        for (let i = startIndex; i < required; ++i) {
-            if (this.totals[i] === 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
     private has_one_total_with_gte(target : number) : boolean {
         for (let i = 0; i < 6; ++i) {
             if (this.totals[i] >= target) {
