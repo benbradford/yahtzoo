@@ -19,11 +19,11 @@ class DieView extends React.Component<any, any>{
    
     public render() {         
         return (
-            <p>          
+                     
                 <button onClick={this.onClick} className={this.border_style()}> 
                     <img src={this.image()} className={this.dice_style()} /> 
                 </button>                 
-            </p>
+            
         );
     }
 

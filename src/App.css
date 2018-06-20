@@ -66,10 +66,9 @@
 
 .ScoreBoard-Cell-Selected {
   width: 7em;
-  border:0.2em solid yellow;
+  border:0.2em solid #FF0000;
   background-color: yellow;
   text-align: left;
-  border-style: dotted;
 }
 
 .ScoreBoard-Cell-Commited {

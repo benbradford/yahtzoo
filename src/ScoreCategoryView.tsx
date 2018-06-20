@@ -10,10 +10,12 @@ class ScoreCategoryView extends React.Component<any, any>{
    
     public render() {         
         return (
+           <td> <button className="Score-Click" onClick={this.clicked} disabled={this.is_button_disabled()}> 
             <td className={this.td_className()}>          
-                <button className="Score-Click" onClick={this.clicked} disabled={this.is_button_disabled()}> <code className={this.font_type()}> {this.props.name} {this.score_as_string()}</code>  </button>            
+            <code className={this.font_type()}> {this.props.name} </code> </td> <td className={this.td_className()}> <code className={this.font_type() }>{this.score_as_string()}</code>           
             </td>
-       
+            </button>
+            </td>
         );
     }
 
