@@ -3,23 +3,21 @@ import * as React from 'react';
 import {InGameState, InGameStateType, IScoreCategory} from './InGameData'
 import DieView from './DieView';
 import DiceMutator from './DiceMutator';
-import GameStateHistory from './GameStateHistory'
 import ScoreMutator from './ScoreMutator'
 
 import ScoreBoardView from './ScoreBoardView'
 
 class InGameView extends React.Component<{}, InGameState>{
 
-    private history : GameStateHistory;
     private diceMutator : DiceMutator;
      private scoreMutator : ScoreMutator;
 
      private selectedCategory : IScoreCategory | undefined = undefined;
+     private selectedScore : number = 0;
     constructor(props: {}) {
         super(props);
-        this.history = new GameStateHistory();
-        this.diceMutator = new DiceMutator(this.history);
-        this.scoreMutator = new ScoreMutator(this.history);
+        this.diceMutator = new DiceMutator();
+        this.scoreMutator = new ScoreMutator();
     }
     
     public render() {         
@@ -40,7 +38,20 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     public componentWillMount() {
-        this.setState(this.history.current());
+        const startState : InGameState = {
+                dice : [
+                    { value: 1, held: false },
+                    { value: 1, held: false },
+                    { value: 1, held: false },
+                    { value: 1, held: false },
+                    { value: 1, held: false }
+                ],
+                state : InGameStateType.awaiting_roll,
+                rollNumber : 0,
+                scores : ScoreMutator.make_empty_scores()  
+            };
+        
+        this.setState(startState);
     }
 
     private renderOneDie( index: number) {
@@ -52,11 +63,23 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     private is_button_disabled() {
-        return this.state.state !== InGameStateType.awaiting_roll &&
-            this.state.state !== InGameStateType.selection_pending;
+        const curr : InGameStateType = this.state.state;
+        if (curr === InGameStateType.awaiting_roll) {
+            return false;
+        }
+        if (this.state.state === InGameStateType.awaiting_selection) {
+            if (this.state.rollNumber === 2) {
+                return true;
+            }
+            return false;
+        }
+        if (this.state.state === InGameStateType.selection_pending) {
+            return false;
+        }
+        return true;
     }
 
-    private button_text() : any{
+    private button_text() : any {
         if (this.state.state === InGameStateType.selection_pending) {
             return "OK";
         }
@@ -64,47 +87,60 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     private handleRoll = () => {
-        if (this.state.state === InGameStateType.selection_pending) {
+        if (this.state.state === InGameStateType.selection_pending && this.selectedCategory !== undefined) {
+            let nextState : InGameState = this.scoreMutator.add_score(this.state, this.selectedCategory, this.selectedScore);
+            nextState = this.diceMutator.reset_all_holds(nextState);
             this.selectedCategory = undefined;
             if (this.scoreMutator.is_complete()) {
-                this.move_to(InGameStateType.game_complete) 
+                this.move_to_from_base(InGameStateType.game_complete, nextState); 
                 return; 
-            }          
+            } 
+            nextState.rollNumber = 0;
+            this.move_to_from_base(InGameStateType.rolling, nextState);         
+        } else {
+            this.move_to(InGameStateType.rolling);
         }
-        this.move_to(InGameStateType.rolling);
+        
         setTimeout( () => {
-            this.setState(this.diceMutator.roll());
-            this.move_to(InGameStateType.awaiting_selection);
+            const nextState : InGameState = this.diceMutator.roll(this.state);
+            this.move_to_from_base(InGameStateType.awaiting_selection, nextState);
         }, Math.floor( (100 * Math.random() * 7)) + 300);
     }
 
     private handleToggleHold = (index : number) => {
-        this.setState(this.diceMutator.toggle_hold(index));
+        if (this.state.rollNumber === 2) {
+            return;
+        }
+        this.setState(this.diceMutator.toggle_hold(this.state, index));
     }
 
     private handleScoreSelection = (category : IScoreCategory, score : number) => {
         if (this.scoreMutator.has_entry(category)) {
-            return;
-        
-        } else if (this.state.state === InGameStateType.awaiting_selection) {
-            this.selectedCategory = category;
-            this.move_to(InGameStateType.selection_pending);
-            this.setState(this.scoreMutator.add_score(category, score));
+            return;    
+        } 
 
-        } else if (this.state.state === InGameStateType.selection_pending) {
-            this.selectedCategory = category;
-            this.setState(this.scoreMutator.change_score(category, score));
+        if (this.selectedCategory === category) {
+            this.selectedCategory = undefined;
+            this.move_to(InGameStateType.awaiting_selection);
+            return;
         }
+        
+        if (this.state.state === InGameStateType.awaiting_selection || this.state.state === InGameStateType.selection_pending) {
+            this.selectedCategory = category;
+            this.selectedScore = score;
+            this.move_to(InGameStateType.selection_pending);
+        } 
     }
 
     private move_to(newState : InGameStateType) {
-        const newData : InGameState=  {
-            dice : this.state.dice,
-            state : newState,
-            rollNumber : this.state.rollNumber,
-            scores : this.state.scores  
-        };
-        this.setState(newData);
+        const base : InGameState = this.state;
+        base.state = newState;
+        this.setState(base);
+    }
+
+    private move_to_from_base(newState : InGameStateType, base : InGameState) {
+        base.state = newState;
+        this.setState(base);
     }
 
 }

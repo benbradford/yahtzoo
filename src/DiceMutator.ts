@@ -1,16 +1,8 @@
 import {InGameState} from './InGameData'
-import GameStateHistory from './GameStateHistory'
 
 export default class DiceMutator {
 
-    private history : GameStateHistory;
-
-    constructor(history : GameStateHistory) {
-        this.history = history;
-    }
-
-    public roll() : InGameState {    
-        const old : InGameState = this.history.current();
+    public roll(old : InGameState) : InGameState {    
         
         const newState : InGameState=  {
             dice : [
@@ -24,12 +16,11 @@ export default class DiceMutator {
             rollNumber : old.rollNumber + 1,
             scores : old.scores  
         };
-        return this.history.push_state(newState);
+        return newState;
     }
 
-    public toggle_hold(index : number) : InGameState {
-        const old : InGameState = this.history.current();
-
+    public toggle_hold(old : InGameState, index : number) : InGameState {
+        
         const newState : InGameState =  {
             dice : [
                     { value: old.dice[0].value, held: this.old_value_or_toggle(old, 0, index)},
@@ -42,7 +33,14 @@ export default class DiceMutator {
             rollNumber : old.rollNumber,
             scores : old.scores  
           };
-       return this.history.push_state(newState);
+       return newState;
+    }
+
+    public reset_all_holds(old :InGameState) {
+        for (let i = 0; i < 5; ++i) {
+            old.dice[i].held = false;
+        }
+        return old;
     }
 
     private new_value_or_held(state : InGameState, index : number) : number {
