@@ -34,6 +34,11 @@ export default class ScoreMutator {
         return this.history.push_state(newState);
     }
 
+    public change_score(category : IScoreCategory, total : number) : InGameState {
+        this.history.undo();
+        return this.add_score(category, total);
+    }
+
     public has_entry(category : IScoreCategory): boolean {
         return this.history.current().scores[category] !== undefined;
     }

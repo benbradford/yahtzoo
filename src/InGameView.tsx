@@ -1,29 +1,29 @@
 import * as React from 'react';
 
-import {InGameState, InGameStateType} from './InGameData'
+import {InGameState, InGameStateType, IScoreCategory} from './InGameData'
 import DieView from './DieView';
 import DiceMutator from './DiceMutator';
 import GameStateHistory from './GameStateHistory'
-// import ScoreMutator from './ScoreMutator'
-// import ScoreCalculator from './ScoreCalculator'
+import ScoreMutator from './ScoreMutator'
+
 import ScoreBoardView from './ScoreBoardView'
 
 class InGameView extends React.Component<{}, InGameState>{
 
     private history : GameStateHistory;
     private diceMutator : DiceMutator;
-   //  private scoreMutator : ScoreMutator;
+     private scoreMutator : ScoreMutator;
     constructor(props: {}) {
         super(props);
         this.history = new GameStateHistory();
         this.diceMutator = new DiceMutator(this.history);
-       // this.scoreMutator = new ScoreMutator(this.history);
+        this.scoreMutator = new ScoreMutator(this.history);
     }
     
     public render() {         
         return (
             <p>
-            <ScoreBoardView dice={this.state.dice} scores={this.state.scores} state={this.state.state} />
+            <ScoreBoardView dice={this.state.dice} scores={this.state.scores} state={this.state.state} onScoreSelection={this.handleScoreSelection}/>
              <button className = "Click-Button" onClick={this.handleRoll} disabled={this.state.state !== InGameStateType.awaiting_roll}> ROLL </button>
              <div className="Dice-Together"><table> <tr>         
                {this.renderOneDie(0)}
@@ -59,6 +59,20 @@ class InGameView extends React.Component<{}, InGameState>{
 
     private handleToggleHold = (index : number) => {
         this.setState(this.diceMutator.toggle_hold(index));
+    }
+
+    private handleScoreSelection = (category : IScoreCategory, score : number) => {
+        if (this.state.state === InGameStateType.awaiting_selection) {
+            if (this.scoreMutator.has_entry(category)) {
+                return;
+            }
+            this.scoreMutator.add_score(category, score);
+        } else if (this.state.state === InGameStateType.selection_pending) {
+            if (this.scoreMutator.has_entry(category)) {
+                return;
+            }
+            this.scoreMutator.change_score(category, score);
+        }
     }
 
     private move_to(newState : InGameStateType) {

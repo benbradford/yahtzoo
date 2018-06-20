@@ -11,13 +11,13 @@ class ScoreCategoryView extends React.Component<any, any>{
     public render() {         
         return (
             <td className="ScoreBoard-Cell">          
-                <code> {this.props.name} {this.score()} </code>              
+                <button onClick={this.clicked}> <code> {this.props.name} {this.score()} </code>  </button>            
             </td>
+       
         );
     }
 
-    private score() : string {
-       
+    private score() : string {    
         const s = this.props.scores[this.props.category];
         if (s === undefined) {
             const calc : ScoreCalculator = this.props.calc;
@@ -26,6 +26,12 @@ class ScoreCategoryView extends React.Component<any, any>{
         return "" + s;
     }
 
+    private clicked = () => {
+        const s = this.props.scores[this.props.category];
+        if (s === undefined) {
+            this.props.onClick(this.props.category, this.props.calc.score(this.props.category));
+        }
+    }
 }
 
 export default ScoreCategoryView;

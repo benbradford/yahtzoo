@@ -15,19 +15,25 @@ class ScoreBoardView extends React.Component<any, any>{
         return (
             <p>          
                 <table className="ScoreBoard"> <tr>
-                    <tr> <ScoreCategoryView calc={calc} category={IScoreCategory.ones}   name="ones    " scores={this.props.scores} />  <ScoreCategoryView calc={calc} category={IScoreCategory.trips} name="trips   " scores={this.props.scores} />  </tr>
-                    <tr> <ScoreCategoryView calc={calc} category={IScoreCategory.twos}   name="twos    " scores={this.props.scores} />  <ScoreCategoryView calc={calc} category={IScoreCategory.quads} name="quads   " scores={this.props.scores} />  </tr>
-                    <tr> <ScoreCategoryView calc={calc} category={IScoreCategory.threes} name="threes " scores={this.props.scores} />  <ScoreCategoryView calc={calc} category={IScoreCategory.full}   name="full    " scores={this.props.scores} />  </tr>
-                    <tr> <ScoreCategoryView calc={calc} category={IScoreCategory.fours}  name="fours  " scores={this.props.scores} /> <ScoreCategoryView calc={calc} category={IScoreCategory.small}   name="small   " scores={this.props.scores} />  </tr>
-                    <tr> <ScoreCategoryView calc={calc} category={IScoreCategory.fives}  name="fives  " scores={this.props.scores} />  <ScoreCategoryView calc={calc} category={IScoreCategory.large}  name="large   " scores={this.props.scores} />  </tr>
-                    <tr> <ScoreCategoryView calc={calc} category={IScoreCategory.sixes}  name="sixes  " scores={this.props.scores} /> <ScoreCategoryView calc={calc} category={IScoreCategory.yahtzee} name="yahtzee " scores={this.props.scores} />  </tr>
-                    <tr> <BonusCellView />  <ScoreCategoryView calc={calc} category={IScoreCategory.chance} name="chance "scores={this.props.scores}  />  </tr>
+                    <tr> {this.add_view(calc, IScoreCategory.ones, "ones    ")}  {this.add_view(calc, IScoreCategory.trips, "trips   ")}  </tr>
+                    <tr> {this.add_view(calc, IScoreCategory.twos, "twos    ")}  {this.add_view(calc, IScoreCategory.quads, "quads   ")}  </tr>
+                    <tr> {this.add_view(calc, IScoreCategory.threes, "threes ")}  {this.add_view(calc, IScoreCategory.full, "full    ")}  </tr>
+                    <tr> {this.add_view(calc, IScoreCategory.fours, "fours  ")} {this.add_view(calc, IScoreCategory.small, "small   ")}  </tr>
+                    <tr> {this.add_view(calc, IScoreCategory.fives, "fives  ")}  {this.add_view(calc, IScoreCategory.large, "large   ")}  </tr>
+                    <tr> {this.add_view(calc, IScoreCategory.sixes, "sixes  ")} {this.add_view(calc, IScoreCategory.yahtzee, "yahtzee ")}  </tr>
+                    <tr> <BonusCellView />  {this.add_view(calc, IScoreCategory.chance, "chance ")}  </tr>
                 </tr></table>                   
             </p>
         );
     }
 
+    private handleScoreSelection = (category : IScoreCategory, score : number) => {
+        this.props.onScoreSelection(category, score);
+    }
 
+    private add_view(calc : ScoreCalculator, category : IScoreCategory, name : string) : any {
+        return  (<ScoreCategoryView onClick={this.handleScoreSelection} calc={calc} category={category} name={name} scores={this.props.scores} /> );
+    }
 }
 
 export default ScoreBoardView;
