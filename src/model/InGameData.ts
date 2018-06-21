@@ -33,3 +33,22 @@ export interface InGameState {
     rollNumber : number;
     scores : number | undefined[];
 }
+
+export class InGameDataMutator {
+
+    private updateGame : (newState : InGameState) => void;
+    private getGameState : () => InGameState;
+
+    constructor( updateGameState : (newState : InGameState) => void, getGameState : () => InGameState) {
+        this.updateGame = updateGameState;
+        this.getGameState = getGameState;
+    }
+
+    public set_state(newState : InGameState) : void {
+        this.updateGame(newState);
+    }
+
+    public get_state() : InGameState {
+        return this.getGameState();
+    }
+}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ScoreCategoryView.css';
+import './css/ScoreCategoryView.css';
 
 class BonusCellView extends React.Component<any, any>{
     

@@ -1,21 +1,24 @@
 import * as React from 'react';
 
-import {InGameState, InGameStateType, IScoreCategory} from './InGameData'
+import {InGameState, InGameStateType, IScoreCategory, InGameDataMutator} from '../model/InGameData'
 import DieView from './DieView';
-import DiceMutator from './DiceMutator';
-import ScoreMutator from './ScoreMutator'
-
+import DiceMutator from '../model/DiceMutator';
+import ScoreMutator from '../model/ScoreMutator'
 import ScoreBoardView from './ScoreBoardView'
 
 class InGameView extends React.Component<{}, InGameState>{
 
     private diceMutator : DiceMutator;
-     private scoreMutator : ScoreMutator;
+    private scoreMutator : ScoreMutator;
 
-     private selectedCategory : IScoreCategory | undefined = undefined;
-     private selectedScore : number = 0;
+    private selectedCategory : IScoreCategory | undefined = undefined;
+    private selectedScore : number = 0;
+
+    private stateMutator : InGameDataMutator;
+
     constructor(props: {}) {
         super(props);
+        this.stateMutator = new InGameDataMutator(this.handleSetState, this.handleGetState );
         this.diceMutator = new DiceMutator();
         this.scoreMutator = new ScoreMutator();
     }
@@ -79,6 +82,14 @@ class InGameView extends React.Component<{}, InGameState>{
         return true;
     }
 
+    private handleSetState = (s : InGameState) => {
+        this.setState(s);
+    } 
+
+    private handleGetState = () : InGameState =>  {
+        return this.state;
+    }
+
     private button_text() : any {
         if (this.state.state === InGameStateType.selection_pending || this.state.rollNumber === 3) {
             return "SELECT";
@@ -136,9 +147,9 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     private move_to(newState : InGameStateType) {
-        const base : InGameState = this.state;
+        const base : InGameState = this.stateMutator.get_state();
         base.state = newState;
-        this.setState(base);
+        this.stateMutator.set_state(base);
     }
 
     private move_to_from_base(newState : InGameStateType, base : InGameState) {

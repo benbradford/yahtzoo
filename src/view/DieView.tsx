@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {InGameStateType} from './InGameData'
+import './css/DieView.css';
+import {InGameStateType} from '../model/InGameData'
 
 const images = [
     require('./img/roll.gif'),

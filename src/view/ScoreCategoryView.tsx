@@ -1,7 +1,7 @@
 import * as React from 'react';
-import './ScoreCategoryView.css';
-import {InGameStateType} from './InGameData'
-import ScoreCalculator from './ScoreCalculator'
+import './css/ScoreCategoryView.css';
+import {InGameStateType} from '../model/InGameData'
+import ScoreCalculator from '../model/ScoreCalculator'
 
 class ScoreCategoryView extends React.Component<any, any>{
     

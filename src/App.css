@@ -19,27 +19,6 @@
   font-size: 1.5em;
 }
 
-.Dice-Spin {
-  animation: Dice-Spin-Anim infinite 0.25s linear;
-  height: 7em;
-  background-color: white;
-}
-
-.Dice-Img {
-  height: 7em;
-  background-color: white;
-}
-
-.Dice-Border-Held {
-  
-  height: 9em;
-  padding: 0.5em;
-
-  border-width:0.3em;
-  background-color: yellow;
-  border-style: solid;
-  
-}
 
 .ScoreBoard {
   
@@ -59,17 +38,6 @@
 
 
 
-.Dice-Border-None {
-  height: 9em;
-  padding: 0.5em;
-  
-  border-width:0.3em;
-  background-color: white;
-  color:white;
-  border-style: solid;
-  border-color:white;
-  
-}
 
 .App-header {
   background-color: #222;

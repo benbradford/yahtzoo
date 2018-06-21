@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {IScoreCategory} from './InGameData'
+import {IScoreCategory} from '../model/InGameData'
 import ScoreCategoryView from './ScoreCategoryView'
 import BonusCellView from './BonusCellView'
-import ScoreCalculator from './ScoreCalculator'
+import ScoreCalculator from '../model/ScoreCalculator'
 
 class ScoreBoardView extends React.Component<any, any>{
     
