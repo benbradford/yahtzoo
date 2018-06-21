@@ -1,0 +1,59 @@
+
+  .Score-TD {
+    min-width: 4.8em;
+    border:0.2em solid #FF0000;
+    text-align: left;
+    padding-left: 0.5em;
+  }
+
+  .Score-TD-Selected {
+    min-width: 4.8em;
+    border:0.2em solid #FF0000;
+    background-color: yellow;
+    text-align: left;
+    padding-left: 0.5em;
+  }
+
+  .Score-Value-TD {
+    min-width: 2.4em;
+    border:0.2em solid #FF0000;
+  }
+
+  .Score-Value-TD-Selected {
+    min-width: 2.4em;
+    border:0.2em solid #FF0000;
+    background-color: yellow;
+  }
+
+
+  .Score-Name-Font {
+    font: 'courier';
+    font-family: "Gill Sans", sans-serif;
+    font-style: normal;
+    font-size: 1.2em;
+    text-align: left;
+  }
+
+  .Score-Value-Font {
+    font: 'courier';
+    font-family: "Gill Sans", sans-serif;
+    font-style: normal;
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: lighter;
+  }
+
+  .Score-Value-Font-Committed {
+    font: 'courier';
+    font-family: "Gill Sans", sans-serif;
+    font-style: normal;
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: bolder;
+    color:red;
+  }
+
+  .Score-Button {
+    min-width: 6em;
+  }
+

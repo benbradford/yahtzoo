@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './ScoreCategoryView.css';
 import {InGameStateType} from './InGameData'
 import ScoreCalculator from './ScoreCalculator'
 
@@ -10,9 +11,11 @@ class ScoreCategoryView extends React.Component<any, any>{
    
     public render() {         
         return (
-           <td> <button className="Score-Click" onClick={this.clicked} disabled={this.is_button_disabled()}> 
-            <td className={this.td_className()}>          
-            <code className={this.font_type()}> {this.props.name} </code> </td> <td className={this.td_className()}> <code className={this.font_type() }>{this.score_as_string()}</code>           
+           <td> <button className="Score-Button" onClick={this.clicked} disabled={this.is_button_disabled()}> 
+            <td className={this.score_td()}>          
+                <code className="Score-Name-Font"> {this.props.name} </code> 
+            </td> <td className={this.score_value_td()}> 
+                <code className={this.score_value_font()}>{this.score_as_string()}</code>           
             </td>
             </button>
             </td>
@@ -28,26 +31,28 @@ class ScoreCategoryView extends React.Component<any, any>{
         return "" + s;
     }
 
-    private font_type() : string {
-        if (this.props.is_selected) {
-            return "ScoreBoard-Cell-Font-Selected";
-        } else if (this.props.scores[this.props.category] !== undefined){
-            return "ScoreBoard-Cell-Font-Commited";
-        } else {
-            return "ScoreBoard-Cell-Font";
+    private score_value_font() : string {
+        if (this.score() !== undefined && this.props.state !== InGameStateType.awaiting_roll) {
+            return "Score-Value-Font-Committed";
         }
+        return "Score-Value-Font";
     }
 
-    private td_className() : string {
+    private score_value_td() : string {
         if (this.props.is_selected) {
-            return "ScoreBoard-Cell-Selected";
-        } else if (this.props.scores[this.props.category] !== undefined){
-            return "ScoreBoard-Cell-Commited";
-        } else {
-            return "ScoreBoard-Cell";
-        }
+            return "Score-Value-TD-Selected";
+        } 
+        return "Score-Value-TD";
+        
     }
 
+    private score_td() : string {
+        if (this.props.is_selected) {
+            return "Score-TD-Selected";
+        } 
+        return "Score-TD";
+        
+    }
     private clicked = () => {
         const score = this.score();
         if (score === undefined) {
