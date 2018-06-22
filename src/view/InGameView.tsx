@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {InGameState, InGameStateType, IScoreCategory, InGameDataMutator} from '../model/InGameData'
+import {InGameState, InGameStateType, IScoreCategory} from '../model/InGameData'
 import DieView from './DieView';
 import DiceMutator from '../model/DiceMutator';
 import ScoreMutator from '../model/ScoreMutator'
@@ -14,11 +14,8 @@ class InGameView extends React.Component<{}, InGameState>{
     private selectedCategory : IScoreCategory | undefined = undefined;
     private selectedScore : number = 0;
 
-    private stateMutator : InGameDataMutator;
-
     constructor(props: {}) {
         super(props);
-        this.stateMutator = new InGameDataMutator(this.handleSetState, this.handleGetState );
         this.diceMutator = new DiceMutator();
         this.scoreMutator = new ScoreMutator();
     }
@@ -27,6 +24,7 @@ class InGameView extends React.Component<{}, InGameState>{
         return (
             <p>
             <ScoreBoardView dice={this.state.dice} scores={this.state.scores} state={this.state.state} onScoreSelection={this.handleScoreSelection} selected={this.selectedCategory}/>
+             
              <button className = "Click-Button" onClick={this.handleRoll} disabled={this.is_button_disabled()}> {this.button_text()} </button>
              <div className="Dice-Together"><table> <tr>         
                {this.renderOneDie(0)}
@@ -41,20 +39,24 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     public componentWillMount() {
+       this.init();
+    }
+
+    private init () : void {
         const startState : InGameState = {
-                dice : [
-                    { value: 1, held: false },
-                    { value: 1, held: false },
-                    { value: 1, held: false },
-                    { value: 1, held: false },
-                    { value: 1, held: false }
-                ],
-                state : InGameStateType.awaiting_roll,
-                rollNumber : 0,
-                scores : ScoreMutator.make_empty_scores()  
-            };
-        
-        this.setState(startState);
+            dice : [
+                { value: 1, held: false },
+                { value: 1, held: false },
+                { value: 1, held: false },
+                { value: 1, held: false },
+                { value: 1, held: false }
+            ],
+            state : InGameStateType.awaiting_roll,
+            rollNumber : 0,
+            scores : ScoreMutator.make_empty_scores()  
+        };
+    
+    this.setState(startState);
     }
 
     private renderOneDie( index: number) {
@@ -79,25 +81,27 @@ class InGameView extends React.Component<{}, InGameState>{
         if (this.state.state === InGameStateType.selection_pending) {
             return false;
         }
+        if (this.state.state === InGameStateType.game_complete) {
+            return false;
+        }
         return true;
     }
 
-    private handleSetState = (s : InGameState) => {
-        this.setState(s);
-    } 
-
-    private handleGetState = () : InGameState =>  {
-        return this.state;
-    }
-
     private button_text() : any {
+        if (this.state.state === InGameStateType.game_complete) {
+            return "RETRY";
+        }
         if (this.state.state === InGameStateType.selection_pending || this.state.rollNumber === 3) {
             return "SELECT";
-        }
+        }    
         return "ROLL";
     }
 
     private handleRoll = () => {
+        if (this.state.state === InGameStateType.game_complete) {
+            this.init();
+            return;
+        }
         if (this.state.state === InGameStateType.selection_pending && this.selectedCategory !== undefined) {
             let nextState : InGameState = this.scoreMutator.add_score(this.state, this.selectedCategory, this.selectedScore);
             nextState = this.diceMutator.reset_all_holds(nextState);
@@ -147,9 +151,9 @@ class InGameView extends React.Component<{}, InGameState>{
     }
 
     private move_to(newState : InGameStateType) {
-        const base : InGameState = this.stateMutator.get_state();
+        const base : InGameState = this.state;
         base.state = newState;
-        this.stateMutator.set_state(base);
+        this.setState(base);
     }
 
     private move_to_from_base(newState : InGameStateType, base : InGameState) {

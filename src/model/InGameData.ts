@@ -34,21 +34,27 @@ export interface InGameState {
     scores : number | undefined[];
 }
 
-export class InGameDataMutator {
-
-    private updateGame : (newState : InGameState) => void;
-    private getGameState : () => InGameState;
-
-    constructor( updateGameState : (newState : InGameState) => void, getGameState : () => InGameState) {
-        this.updateGame = updateGameState;
-        this.getGameState = getGameState;
+export function total_committed_dice_value(data : number | undefined []) : number {
+    let total : number = 0;
+    for (let i = 0; i < 6; ++i) {
+        const v = data[i];
+        if (v !== undefined) {
+            total += v;
+        }
     }
+    return total;
+}
 
-    public set_state(newState : InGameState) : void {
-        this.updateGame(newState);
+export function total_score(data : number | undefined []) : number {
+    let total : number = 0;
+    for (let i = 0; i < IScoreCategory.max; ++i) {
+        const t = data[i];
+        if (t !== undefined) {
+            total += t;
+        }
     }
-
-    public get_state() : InGameState {
-        return this.getGameState();
+    if (total_committed_dice_value(data) >= 62) {
+        total += 35;
     }
+    return total;
 }

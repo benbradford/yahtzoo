@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {IScoreCategory} from '../model/InGameData'
+import {IScoreCategory, total_score, total_committed_dice_value} from '../model/InGameData'
 import ScoreCategoryView from './ScoreCategoryView'
 import BonusCellView from './BonusCellView'
 import ScoreCalculator from '../model/ScoreCalculator'
@@ -21,8 +21,11 @@ class ScoreBoardView extends React.Component<any, any>{
                     <tr> {this.add_view(calc, IScoreCategory.fours, "fours  ")} {this.add_view(calc, IScoreCategory.small, "small   ")}  </tr>
                     <tr> {this.add_view(calc, IScoreCategory.fives, "fives  ")}  {this.add_view(calc, IScoreCategory.large, "large   ")}  </tr>
                     <tr> {this.add_view(calc, IScoreCategory.sixes, "sixes  ")} {this.add_view(calc, IScoreCategory.yahtzee, "yahtzee ")}  </tr>
-                    <tr> <BonusCellView total_value={this.total_committed_dice_value()}/>  {this.add_view(calc, IScoreCategory.chance, "chance ")}  </tr>
-                </tr></table>                   
+                    <tr> <BonusCellView total_value={total_committed_dice_value(this.props.scores)}/>  {this.add_view(calc, IScoreCategory.chance, "chance ")}  </tr>
+                </tr></table>  
+                
+                <p className="Score-Label">Total: {total_score(this.props.scores)} </p>    
+                          
             </p>
         );
     }
@@ -35,16 +38,6 @@ class ScoreBoardView extends React.Component<any, any>{
         return  (<ScoreCategoryView onClick={this.handleScoreSelection} calc={calc} category={category} name={name} scores={this.props.scores} is_selected={this.props.selected === category} state={this.props.state}/> );
     }
 
-    private total_committed_dice_value() : number {
-        let total : number = 0;
-        for (let i = 0; i < 6; ++i) {
-            const v = this.props.scores[i];
-            if (v !== undefined) {
-                total += v;
-            }
-        }
-        return total;
-    }
 }
 
 export default ScoreBoardView;
