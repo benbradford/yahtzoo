@@ -32,6 +32,7 @@ export interface InGameState {
     state : InGameStateType;
     rollNumber : number;
     scores : number | undefined[];
+    numYahtzee : number;
 }
 
 export function total_committed_dice_value(data : number | undefined []) : number {
@@ -45,7 +46,7 @@ export function total_committed_dice_value(data : number | undefined []) : numbe
     return total;
 }
 
-export function total_score(data : number | undefined []) : number {
+export function total_score(data : number | undefined [], numYahtzee : number) : number {
     let total : number = 0;
     for (let i = 0; i < IScoreCategory.max; ++i) {
         const t = data[i];
@@ -56,5 +57,10 @@ export function total_score(data : number | undefined []) : number {
     if (total_committed_dice_value(data) >= 62) {
         total += 35;
     }
+
+    if (numYahtzee > 1) {
+        total += (numYahtzee-1) * 100;
+    }
+    
     return total;
 }

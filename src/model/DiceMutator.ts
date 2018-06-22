@@ -14,7 +14,8 @@ export default class DiceMutator {
             ],
             state : old.state,
             rollNumber : old.rollNumber + 1,
-            scores : old.scores  
+            scores : old.scores,
+            numYahtzee : old.numYahtzee
         };
         return newState;
     }
@@ -31,7 +32,8 @@ export default class DiceMutator {
                 ]   ,
             state : old.state,
             rollNumber : old.rollNumber,
-            scores : old.scores  
+            scores : old.scores,
+            numYahtzee : old.numYahtzee
           };
        return newState;
     }

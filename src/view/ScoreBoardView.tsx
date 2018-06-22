@@ -24,7 +24,7 @@ class ScoreBoardView extends React.Component<any, any>{
                     <tr> <BonusCellView total_value={total_committed_dice_value(this.props.scores)}/>  {this.add_view(calc, IScoreCategory.chance, "chance ")}  </tr>
                 </tr></table>  
                 
-                <p className="Score-Label">Total: {total_score(this.props.scores)} </p>    
+                <p className="Score-Label">Total: {total_score(this.props.scores, this.props.numYahtzee)} </p>    
                           
             </p>
         );

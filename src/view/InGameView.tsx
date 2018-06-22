@@ -5,15 +5,18 @@ import DieView from './DieView';
 import DiceMutator from '../model/DiceMutator';
 import ScoreMutator from '../model/ScoreMutator'
 import ScoreBoardView from './ScoreBoardView'
+import ScoreCalculator from 'src/model/ScoreCalculator'
 
 class InGameView extends React.Component<{}, InGameState>{
+
+    private static readonly MAX_ROLLS : number = 3;
 
     private diceMutator : DiceMutator;
     private scoreMutator : ScoreMutator;
 
     private selectedCategory : IScoreCategory | undefined = undefined;
     private selectedScore : number = 0;
-
+   
     constructor(props: {}) {
         super(props);
         this.diceMutator = new DiceMutator();
@@ -23,7 +26,7 @@ class InGameView extends React.Component<{}, InGameState>{
     public render() {         
         return (
             <p>
-            <ScoreBoardView dice={this.state.dice} scores={this.state.scores} state={this.state.state} onScoreSelection={this.handleScoreSelection} selected={this.selectedCategory}/>
+            <ScoreBoardView numYahtzee={this.state.numYahtzee} dice={this.state.dice} scores={this.state.scores} state={this.state.state} onScoreSelection={this.handleScoreSelection} selected={this.selectedCategory}/>
              
              <button className = "Click-Button" onClick={this.handleRoll} disabled={this.is_button_disabled()}> {this.button_text()} </button>
              <div className="Dice-Together"><table> <tr>         
@@ -53,7 +56,8 @@ class InGameView extends React.Component<{}, InGameState>{
             ],
             state : InGameStateType.awaiting_roll,
             rollNumber : 0,
-            scores : ScoreMutator.make_empty_scores()  
+            scores : ScoreMutator.make_empty_scores(),
+            numYahtzee : 0 
         };
     
     this.setState(startState);
@@ -73,7 +77,7 @@ class InGameView extends React.Component<{}, InGameState>{
             return false;
         }
         if (this.state.state === InGameStateType.awaiting_selection) {
-            if (this.state.rollNumber === 3) {
+            if (this.state.rollNumber === InGameView.MAX_ROLLS) {
                 return true;
             }
             return false;
@@ -91,7 +95,7 @@ class InGameView extends React.Component<{}, InGameState>{
         if (this.state.state === InGameStateType.game_complete) {
             return "RETRY";
         }
-        if (this.state.state === InGameStateType.selection_pending || this.state.rollNumber === 3) {
+        if (this.state.state === InGameStateType.selection_pending || this.state.rollNumber === InGameView.MAX_ROLLS) {
             return "SELECT";
         }    
         return "ROLL";
@@ -105,6 +109,10 @@ class InGameView extends React.Component<{}, InGameState>{
         if (this.state.state === InGameStateType.selection_pending && this.selectedCategory !== undefined) {
             let nextState : InGameState = this.scoreMutator.add_score(this.state, this.selectedCategory, this.selectedScore);
             nextState = this.diceMutator.reset_all_holds(nextState);
+            const calc : ScoreCalculator = new ScoreCalculator(this.state.dice);
+            if (calc.yahtzee() !== 0) {
+                this.increase_yahtzee(nextState);
+            }
             this.selectedCategory = undefined;
             if (this.scoreMutator.is_complete()) {
                 this.move_to_from_base(InGameStateType.game_complete, nextState); 
@@ -126,7 +134,7 @@ class InGameView extends React.Component<{}, InGameState>{
         if (this.state.rollNumber === 0) {
             return;
         }
-        if (this.state.rollNumber === 3) {
+        if (this.state.rollNumber === InGameView.MAX_ROLLS) {
             return;
         }
         this.setState(this.diceMutator.toggle_hold(this.state, index));
@@ -158,6 +166,11 @@ class InGameView extends React.Component<{}, InGameState>{
 
     private move_to_from_base(newState : InGameStateType, base : InGameState) {
         base.state = newState;
+        this.setState(base);
+    }
+
+    private increase_yahtzee( base : InGameState) {
+        ++base.numYahtzee;
         this.setState(base);
     }
 
