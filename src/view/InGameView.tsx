@@ -5,7 +5,7 @@ import DieView from './DieView';
 import DiceMutator from '../model/DiceMutator';
 import ScoreMutator from '../model/ScoreMutator'
 import ScoreBoardView from './ScoreBoardView'
-import ScoreCalculator from 'src/model/ScoreCalculator'
+import ScoreCalculator from '../model/ScoreCalculator'
 
 class InGameView extends React.Component<{}, InGameState>{
 
